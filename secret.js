@@ -1,0 +1,1 @@
+module.exports = 'nghia_thoai_module6';
