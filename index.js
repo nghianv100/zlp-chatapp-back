@@ -9,6 +9,9 @@ const jwt = require('jsonwebtoken');
 const registerRouter = require('./routes/Register');
 const authRouter = require('./routes/Authenticate');
 const getListRouter = require('./routes/GetList');
+const getMessagesRouter = require('./routes/GetMessages');
+const sendMessageRouter = require('./routes/SendMessage');
+
 
 const checkAuth = require('./middlewares/CheckAuth');
 
@@ -31,6 +34,8 @@ app.get('/', function(req, res) {
 app.use('/api/register', registerRouter);
 app.use('/api/authenticate', authRouter);
 app.use('/api/get-list', getListRouter);
+app.use('/api/get-messages', getMessagesRouter);
+app.use('/api/send-message', sendMessageRouter);
 
 server.listen(port, function() {
     console.log(`Server is running at port ${port} ...`);
