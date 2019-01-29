@@ -66,7 +66,12 @@ io.on('connection', function (socket) {
         if(wsStore[data.receiver_u]) {
             wsStore[data.receiver_u].emit('personal-message', data);
         }
-    })
+    });
+
+    socket.on('user-signup', function(data) {
+        console.log('user-signup', data);
+        io.emit('user-signup', data);
+    });
 });
 
 server.listen(port, function () {
