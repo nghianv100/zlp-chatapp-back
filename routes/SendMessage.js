@@ -12,7 +12,6 @@ router.post('/', function(req, res) {
     });
 
     msg.save().then(function(doc) {
-        console.log(doc);
         res.end();
     })
 });
