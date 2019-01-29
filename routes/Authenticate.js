@@ -49,7 +49,8 @@ router.post('/', function (req, res) {
                         success: true,
                         user: {
                             username: user.username,
-                            display_name: user.display_name
+                            display_name: user.display_name,
+                            token: token
                         },
                     });
                 }

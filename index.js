@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const registerRouter = require('./routes/Register');
 const authRouter = require('./routes/Authenticate');
+const getListRouter = require('./routes/GetList');
 
 const checkAuth = require('./middlewares/CheckAuth');
 
@@ -29,6 +30,7 @@ app.get('/', function(req, res) {
 
 app.use('/api/register', registerRouter);
 app.use('/api/authenticate', authRouter);
+app.use('/api/get-list', getListRouter);
 
 server.listen(port, function() {
     console.log(`Server is running at port ${port} ...`);
