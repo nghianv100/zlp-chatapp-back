@@ -1,4 +1,4 @@
-# Web Chat NT Zalopay (Front-end)
+# Web Chat NT Zalopay (Back-end)
 
 ## Sử dụng
 
