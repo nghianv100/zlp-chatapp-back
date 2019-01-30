@@ -12,6 +12,10 @@ const authRouter = require('./routes/Authenticate');
 const getListRouter = require('./routes/GetList');
 const getMessagesRouter = require('./routes/GetMessages');
 const sendMessageRouter = require('./routes/SendMessage');
+const sendGroupMessageRouter = require('./routes/SendGroupMessage');
+const createGroupRouter = require('./routes/CreateGroup');
+
+const Group = require('./db/Group');
 
 const checkAuth = require('./middlewares/CheckAuth');
 
@@ -38,6 +42,8 @@ app.use('/api/authenticate', authRouter);
 app.use('/api/get-list', getListRouter);
 app.use('/api/get-messages', getMessagesRouter);
 app.use('/api/send-message', sendMessageRouter);
+app.use('/api/send-group-message', sendGroupMessageRouter);
+app.use('/api/create-group', createGroupRouter);
 
 let wsStore = {};
 
@@ -68,9 +74,29 @@ io.on('connection', function (socket) {
         }
     });
 
+    socket.on('group-message', function(data) {
+        console.log('group-message', data);
+        Group.find({id: data.group_id}).then(function(docs) {
+            for(let i = 0; i < docs[0].members.length; i++) {
+                if(wsStore[docs[0].members[i]]) {
+                    wsStore[docs[0].members[i]].emit('group-message', data);
+                }
+            }
+        });
+    });
+
     socket.on('user-signup', function(data) {
         console.log('user-signup', data);
         io.emit('user-signup', data);
+    });
+
+    socket.on('create-group', function(data) {
+        console.log('create-group', data);
+        for(let i = 0; i < data.members.length; i++) {
+            if(wsStore[data.members[i]]) {
+                wsStore[data.members[i]].emit('create-group', data);
+            }
+        }
     });
 });
 

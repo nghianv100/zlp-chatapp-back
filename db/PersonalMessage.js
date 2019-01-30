@@ -23,7 +23,7 @@ const PersonalMessageSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        required: true
+        default: ''
     },
     time: {
         type: Date,

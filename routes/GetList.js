@@ -1,19 +1,33 @@
 const router = require('express').Router();
 const User = require('../db/User');
+const Group = require('../db/Group');
 
 router.post('/', function(req, res) {
-    User.find({
+    let users = User.find({
         username: { $nin: req.body.username }
-    }).then(docs => {
-        let resultPerson = docs.map(function(value) {
+    });
+    let groups = Group.find({
+        members: req.body.username
+    });
+
+    Promise.all([users, groups]).then(values => {
+        let resultPerson = values[0].map(function(value) {
             return {
                 username: value.username,
                 display_name: value.display_name
             }
         });
-        res.json({
-            persons: resultPerson
+        let resultGroup = values[1].map(function(value) {
+            return {
+                id: value.id,
+                name: value.name,
+                members: value.members
+            }
         });
+        res.json({
+            persons: resultPerson,
+            groups: resultGroup
+        })
     });
 });
 
